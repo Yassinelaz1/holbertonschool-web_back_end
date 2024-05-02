@@ -31,9 +31,9 @@ class Server:
         """return a tuple of size two containing a start index
         and an end index corresponding to the range of indexes to return in
         a list for those particular pagination parameters."""
-        start_index = (page - 1) * page_size
-        end_index = start_index + page_size
-        return start_index, end_index
+        start = (page - 1) * page_size
+        end = start + page_size
+        return start, end
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Get a specific page from the dataset."""
