@@ -37,17 +37,10 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Get a specific page from the dataset."""
-        assert isinstance(page, int) and isinstance(page_size, int)
-        assert page > 0 and page_size > 0
-
-        indices = self.index_range(page, page_size)
-        start = indices[0]
-        end = indices[1]
-
-        try:
-            return self.dataset()[start:end]
-        except IndexError:
-            return []
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
+        start, end = self.index_range(page, page_size)
+        return self.dataset()[start:end]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """Implement a get_hyper method that takes the same arguments
