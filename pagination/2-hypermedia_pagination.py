@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """get_page that takes two integer arguments page with default
 value 1 and page_size with default value 10."""
-import csv
-from math import ceil
-from typing import List
 
-index_range = __import__('0-simple_helper_function').index_range
+import csv
+import math
+from typing import List
 
 
 class Server:
@@ -28,12 +27,20 @@ class Server:
 
         return self.__dataset
 
+    def index_range(page, page_size):
+        """return a tuple of size two containing a start index
+        and an end index corresponding to the range of indexes to return in
+        a list for those particular pagination parameters."""
+        start_index = (page - 1) * page_size
+        end_index = start_index + page_size
+        return start_index, end_index
+
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Get a specific page from the dataset."""
         assert isinstance(page, int) and isinstance(page_size, int)
         assert page > 0 and page_size > 0
 
-        indices = index_range(page, page_size)
+        indices = self.index_range(page, page_size)
         start = indices[0]
         end = indices[1]
 
@@ -41,18 +48,20 @@ class Server:
             return self.dataset()[start:end]
         except IndexError:
             return []
+
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """Implement a get_hyper method that takes the same arguments
         (and defaults) as get_page and returns a dictionary"""
-        page = self.get_page(page, page_size)
-        total = len(self.dataset())
-        total_pages = ceil(total / page_size)
-
+        data = self.get_page(page, page_size)
+        total_pages = math.ceil(len(self.dataset()) / page_size)
         return {
-            'page_size': len(page),
-            'page': page,
-            'data': page,
-            'next_page': page + 1 if page < total_pages else None,
-            'prev_page': page - 1 if page != 1 else None,
-            'total_pages': total_pages
+            "page_size": len(data),
+            "page": page,
+            "data": data,
+            "next_page": (
+                page + 1 if len(data) ==
+                page_size and page < total_pages else None
+            ),
+            "prev_page": page - 1 if page > 1 else None,
+            "total_pages": total_pages,
         }
