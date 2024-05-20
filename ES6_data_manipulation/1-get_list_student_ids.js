@@ -3,7 +3,7 @@ export default function getListStudentIds(students) {
     return [];
   }
 
-  const student_id = students.map((item) => item.id);
+  const studentid = students.map((item) => item.id);
 
-  return student_id;
+  return studentid;
 }
