@@ -5,6 +5,7 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LRUCache(BaseCaching):
+    """LRU Caching"""
     def __init__(self):
         """Initialize the class and call the parent class init"""
         super().__init__()
@@ -30,7 +31,8 @@ class LRUCache(BaseCaching):
         self.lru_order.append(key)
 
     def get(self, key):
-        """Return the value in cache linked to key, or None if key is not present"""
+        """Return the value in cache linked to key,
+        or None if key is not present"""
         if key is None or key not in self.cache_data:
             return None
 
