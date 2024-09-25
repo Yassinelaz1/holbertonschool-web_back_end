@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """LIFO Caching"""
 
-
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache(BaseCaching):
+    """LIFO Caching"""
     def __init__(self):
         """Initialize the class and call the parent class init"""
         super().__init__()
