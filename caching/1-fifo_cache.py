@@ -1,34 +1,29 @@
 #!/usr/bin/python3
-"""1. FIFO caching"""
+"""FIFO caching"""
 
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class FIFOCache(BaseCaching):
+    """FIFO caching class"""
     def __init__(self):
-        """Initialize the class and call the parent class init"""
+        """ Initialize class instance. """
         super().__init__()
-        self.order = []  # To maintain the order of keys
+        self.keys = []
 
     def put(self, key, item):
-        """Assign item to the dictionary with FIFO eviction policy"""
-        if key is None or item is None:
-            return
-
-        """If key already exists, update the value and reorder"""
-        if key in self.cache_data:
-            self.order.remove(key)
-        elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            """ If cache is full, discard the first item (FIFO)"""
-            first_key = self.order.pop(0)
-            del self.cache_data[first_key]
-            print(f"DISCARD: {first_key}")
-
-        """Add new item"""
-        self.cache_data[key] = item
-        self.order.append(key)
+        """Add key/value pair to cache data."""
+        if key is not None and item is not None:
+            self.cache_data[key] = item
+            if key not in self.keys:
+                self.keys.append(key)
+            if len(self.keys) > BaseCaching.MAX_ITEMS:
+                discard = self.keys.pop(0)
+                del self.cache_data[discard]
+                print('DISCARD: {:s}'.format(discard))
 
     def get(self, key):
-        """Return the value in cache linked to key,
-        or None if key is not present"""
-        return self.cache_data.get(key, None)
+        """Return value stored in `key` key of cache."""
+        if key is not None and key in self.cache_data:
+            return self.cache_data[key]
+        return None
