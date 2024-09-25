@@ -3,6 +3,7 @@
 
 BaseCaching = __import__('base_caching').BaseCaching
 
+
 class FIFOCache(BaseCaching):
     def __init__(self):
         """Initialize the class and call the parent class init"""
@@ -30,4 +31,3 @@ class FIFOCache(BaseCaching):
     def get(self, key):
         """Return the value in cache linked to key, or None if key is not present"""
         return self.cache_data.get(key, None)
-    

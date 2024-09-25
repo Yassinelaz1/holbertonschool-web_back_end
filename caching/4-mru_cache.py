@@ -3,6 +3,7 @@
 
 BaseCaching = __import__('base_caching').BaseCaching
 
+
 class MRUCache(BaseCaching):
     def __init__(self):
         """Initialize the class and call the parent class init"""
