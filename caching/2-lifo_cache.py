@@ -13,7 +13,7 @@ class LIFOCache(BaseCaching):
 
     def put(self, key, item):
         """Assign item to the dictionary with LIFO eviction policy"""
-        b = BaseCaching.MAX_ITEMS 
+        b = BaseCaching.MAX_ITEMS
         if key is None or item is None:
             return
         if len(
