@@ -40,8 +40,8 @@ class BasicAuth(Auth):
         except Exception:
             return None
 
-    def extract_user_credentials(self,
-                                 decoded_base64_authorization_header: str) -> (str, str):
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str) -> (str, str):
         """Extracts user email and password from Base64 decoded string."""
         if decoded_base64_authorization_header is None:
             return None, None
@@ -51,7 +51,8 @@ class BasicAuth(Auth):
             return None, None
 
         # Split the string at the first occurrence of ':'
-        user_email, password = decoded_base64_authorization_header.split(':', 1)
+        user_email, password = decoded_base64_authorization_header.split(
+            ':', 1)
         return user_email, password
 
     def current_user(self, request=None) -> TypeVar('User'):
