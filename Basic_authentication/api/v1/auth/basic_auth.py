@@ -5,6 +5,7 @@ from api.v1.auth.auth import Auth
 from base64 import b64decode
 from models.user import User
 from typing import TypeVar
+import base64
 
 
 class BasicAuth(Auth):
@@ -28,19 +29,16 @@ class BasicAuth(Auth):
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
-        """returns the decoded value of a Base64 encoded string"""
+        """ Decodes the Base64 authorization header. """
         if base64_authorization_header is None:
-            return None, None
-
+            return None
         if not isinstance(base64_authorization_header, str):
-            return None, None
-
-        if ':' not in base64_authorization_header:
-            return None, None
-
-        credentials = base64_authorization_header.split(':', 1)
-
-        return credentials[0], credentials[1]
+            return None
+        try:
+            decoded_bytes = base64.b64decode(base64_authorization_header)
+            return decoded_bytes.decode('utf-8')
+        except Exception:
+            return None
 
     def user_object_from_credentials(self,
                                      user_email: str,
