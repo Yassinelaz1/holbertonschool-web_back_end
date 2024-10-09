@@ -14,13 +14,27 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 AUTH_TYPE = getenv("AUTH_TYPE")
-
-if AUTH_TYPE == "auth":
+if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
-elif AUTH_TYPE == "basic_auth":
+elif AUTH_TYPE == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
+elif AUTH_TYPE == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
+
+
+@app.errorhandler(401)
+def unauthorized(error) -> str:
+    """ error handler for (unauthorized) 401 status code """
+    return jsonify({"error": "Unauthorized"}), 401
+
+
+@app.errorhandler(403)
+def forbidden(error) -> str:
+    """ error handler for (forbidden) 403 status code """
+    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.errorhandler(404)
@@ -28,18 +42,6 @@ def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
-
-
-@app.errorhandler(401)
-def UnauthorizedERROR(error) -> str:
-    """Error handler: Unauthorized"""
-    return jsonify({"error": "Unauthorized"}), 401
-
-
-@app.errorhandler(403)
-def ForbiddenERROR(error) -> str:
-    """Error handler: Forbidden"""
-    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.before_request
