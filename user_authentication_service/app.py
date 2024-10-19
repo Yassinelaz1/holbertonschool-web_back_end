@@ -26,7 +26,7 @@ def users():
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
-    """ Log in """
+    """ Log in function"""
     email = request.form.get('email')
     password = request.form.get('password')
     if AUTH.valid_login(email, password) is False:
