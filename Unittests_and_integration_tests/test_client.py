@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
-""" Parameterize and patch as decorators, Mocking a property, More patching,
-    Parameterize, Integration test: fixtures, Integration tests """
+"""
+In a new test_client.py file, declare the
+TestGithubOrgClient(unittest.TestCase)
+"""
 import unittest
-from unittest.mock import patch, PropertyMock, Mock
+from unittest.mock import patch
 from parameterized import parameterized
 from client import GithubOrgClient
-from fixtures import TEST_PAYLOAD
-from urllib.error import HTTPError
 
 
 class TestGithubOrgClient(unittest.TestCase):
-    """ TESTCASE """
-    """ inputs to test the functionality """
-    @parameterized.expand([
-        ("google"),
-        ("abc"),
-        ])
+    """ test """
+    @parameterized.expand([("google"),("abc"),])
     @patch("client.get_json", return_value={"payload": True})
-    def test_org(self, org_name, mock_get):
+    def test_org(self, org_name, expected_response,mock_get_json):
         """ test that GithubOrgClient.org returns the correct value """
-        test_client = GithubOrgClient(org_name)
-        test_return = test_client.org
-        self.assertEqual(test_return, mock_get.return_value)
-        mock_get.assert_called_once
+        mock_get_json.return_value = expected_response
+        client = GithubOrgClient(org_name)
+        result = client.org()
+        self.assertEqual(result, expected_response)
+        mock_get_json.assert_called_once
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}"
+        )
