@@ -35,13 +35,36 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """ test """
     """ Mock HTTP calls"""
+
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
     ])
+
     @patch('test_utils.get_json')
     def test_get_json(self, test_url, test_payload, mock_get):
         """method to test that utils.get_json returns the expected result."""
         mock_get.return_value = test_payload
         result = get_json(test_url)
         self.assertEqual(result, test_payload)
+
+class TestMemoize(unittest.TestCase):
+    """ Test the memoize decorator"""
+
+    def test_memoize(self):
+        """Test Memoize"""
+        class TestClass:
+            """ TestClass """
+            def a_method(self):
+                """ a method  """
+                return 42
+
+            @memoize
+            def a_property(self):
+                """ property """
+                return self.a_method()
+        with patch.object(TestClass, "a_method") as mockMethod:
+            test_class = TestClass()
+            test_class.a_property
+            test_class.a_property
+            mockMethod.assert_called_once
