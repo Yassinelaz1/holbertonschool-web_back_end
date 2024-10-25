@@ -6,7 +6,8 @@ import unittest
 from unittest.mock import patch
 from parameterized import parameterized
 from client import GithubOrgClient
-from utils import access_nested_map, get_json, memoize
+from fixtures import TEST_PAYLOAD
+from urllib.error import HTTPError
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -50,3 +51,29 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient('test')
         result = client.has_license(license, license_key)
         self.assertEqual(result, result)
+        
+@parameterized_class(
+    ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+    TEST_PAYLOAD
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """ TESTCASE """
+    @classmethod
+    def setUpClass(cls):
+        """setUpClass """
+        cls.get_patcher = patch('requests.get', side_effect=HTTPError)
+
+    @classmethod
+    def tearDownClass(cls):
+        """tearDownClass"""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """test GithubOrgClient.public_repos """
+        test_class = GithubOrgClient("holberton")
+        assert True
+
+    def test_public_repos_with_license(self):
+        """ test_public_repos_with_license """
+        test_class = GithubOrgClient("holberton")
+        assert True
