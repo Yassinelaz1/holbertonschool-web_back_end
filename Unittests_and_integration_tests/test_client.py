@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
 """
-In a new test_client.py file, declare the
-TestGithubOrgClient(unittest.TestCase)
+5. Mocking a property
 """
 import unittest
 from unittest.mock import patch
 from parameterized import parameterized
 from client import GithubOrgClient
+from utils import access_nested_map, get_json, memoize
 
 
 class TestGithubOrgClient(unittest.TestCase):
     """ test """
     @parameterized.expand([("google"),("abc"),])
     @patch("client.get_json", return_value={"payload": True})
-    def test_org(self, org_name, mock_get_json):
-        """ test that GithubOrgClient.org returns the correct value """
-        
-        mock_get_json.return_value = {org_name: 'true'}
-        client = GithubOrgClient(org_name)
-        result = client.org()
-        url = f'https://api.github.com/orgs/{org_name}'
-        mock_get_json.assert_called_once_with(url)
-        self.assertEqual(result, {org_name: 'true'} )
+    def test_access_nested_map_exception(self, nested_map, path):
+        """ 5. Mocking a property"""
+        with self.assertRaises(KeyError) as error:
+            access_nested_map(nested_map, path)
+        self.assertEqual(error.exception.args[0], path[-1])
