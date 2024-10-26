@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 "Basic Flask app"
 from flask import Flask, render_template, request
-from flask_babel import Babel,gettext
+from flask_babel import Babel
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -25,7 +25,12 @@ def root():
 
 @babel.localeselector
 def get_locale():
-    """ to determine the best match with our supported languages """
+    """
+    to Determine the best match with our supported languages.
+    """
+    lang = request.args.get('lang')
+    if lang in app.config['LANGUAGES']:
+        return lang
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
