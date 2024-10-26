@@ -5,20 +5,15 @@ from flask_babel import Babel
 
 
 app = Flask(__name__)
-
-
-@app.route("/")
-def index():
-    "render 0-index.html "
-    return render_template("0-index.html")
+babel = Babel(app)
 
 
 class Config:
-    "Config class"
+    "Basic Babel setup"
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
-    
+
 
 app.config.from_object(Config)
 babel = Babel(app)
