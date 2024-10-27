@@ -17,7 +17,7 @@ class Config:
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
-def get_locale() -> str:
+def get_locale():
     """
     to Determine the best match with our supported languages.
     """
@@ -32,7 +32,7 @@ app.config.from_object(Config)
 
 
 @app.route('/')
-def index() -> str:
+def index():
     """Renders 3-index.html"""
     return render_template('3-index.html')
 
