@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-Flask application
-"""
-
+"""Flask application"""
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
@@ -28,7 +25,6 @@ def get_locale():
 
 
 babel = Babel(app, locale_selector=get_locale)
-app.config.from_object(Config)
 
 
 @app.route('/')
