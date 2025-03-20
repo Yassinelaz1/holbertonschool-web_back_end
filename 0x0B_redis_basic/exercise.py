@@ -72,7 +72,6 @@ def replay(fn: Callable):
         print(f'{f_name}(*{a}) -> {b}')
 
 
-
 class Cache:
     """Cache class for storing data in Redis."""
 
