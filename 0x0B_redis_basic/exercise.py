@@ -6,7 +6,7 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    """ Decorator to count how many times a method is called. 
+    """ Decorator to count how many times a method is called.
     Increments a counter in Redis every time the method is called.
     """
 
