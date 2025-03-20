@@ -49,8 +49,9 @@ def replay(fn: Callable) -> None:
     """
     Display the history of calls to a particular function.
     """
+    n_calls = redis.Redis.get(fn.__qualname__)
     try:
-        n_calls = redis.Redis.get(fn.__qualname__)
+        n_calls = n_calls.decode('utf-8')
     except Exception:
         n_calls = 0
     print(f'{fn.__qualname__} was called {n_calls} times:')
