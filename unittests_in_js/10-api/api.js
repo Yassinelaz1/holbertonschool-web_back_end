@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = 7865;
 
-
+// Middleware to parse JSON requests
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -14,7 +14,7 @@ app.get('/cart/:id(\\d+)', (req, res) => {
   res.send(`Payment methods for cart ${req.params.id}`);
 });
 
-
+// New endpoint: Available payment methods
 app.get('/available_payments', (req, res) => {
   res.json({
     payment_methods: {
@@ -24,7 +24,7 @@ app.get('/available_payments', (req, res) => {
   });
 });
 
-
+// New endpoint: Login
 app.post('/login', (req, res) => {
   const { userName } = req.body;
   res.send(`Welcome ${userName}`);
